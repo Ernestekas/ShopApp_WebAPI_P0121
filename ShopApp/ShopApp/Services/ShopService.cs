@@ -1,4 +1,6 @@
-﻿using ShopApp.Repositories;
+﻿using ShopApp.Dtos;
+using ShopApp.Models;
+using ShopApp.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,21 @@ namespace ShopApp.Services
         public ShopService(ShopRepository shopRepository)
         {
             _shopRepository = shopRepository;
+        }
+
+        public List<ShopDto> GetAll()
+        {
+            List<Shop> shops = _shopRepository.GetAllIncluded();
+
+            foreach(var shop in shops)
+            {
+                ShopDto shopDto = new ShopDto()
+                {
+                    ShopId = shop.Id,
+                    ShopName = shop.Name,
+                    Created = shop.DateCreated
+                };
+            }
         }
     }
 }

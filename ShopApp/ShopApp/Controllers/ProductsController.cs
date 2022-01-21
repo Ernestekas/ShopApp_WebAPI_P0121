@@ -8,9 +8,6 @@ namespace ShopApp.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        public class DataContext : DbContext
-        {
-            public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-        }
+        
     }
 }
