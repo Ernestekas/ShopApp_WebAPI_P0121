@@ -8,6 +8,6 @@ namespace ShopApp.Models
 {
     public class Product : Entity
     {
-
+        public int Price { get; set; }
     }
 }

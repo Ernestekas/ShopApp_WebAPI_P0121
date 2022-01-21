@@ -8,6 +8,7 @@ namespace ShopApp.Models
 {
     public class Shop : Entity
     {
-
+        public DateTime DateCreated { get; set; }
+        public List<Product> Products { get; set; }
     }
 }
