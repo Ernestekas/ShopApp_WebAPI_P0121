@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ShopApp.Data;
+using ShopApp.Dtos.MappingProfiles;
 using ShopApp.Repositories;
 using ShopApp.Services;
 using System;
@@ -35,6 +36,8 @@ namespace ShopApp
 
             var defaultConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataContext>(d => d.UseSqlServer(defaultConnection));
+
+            services.AddAutoMapper(typeof(ShopProfile));
 
             services.AddTransient<ShopService>();
             services.AddTransient<ShopRepository>();

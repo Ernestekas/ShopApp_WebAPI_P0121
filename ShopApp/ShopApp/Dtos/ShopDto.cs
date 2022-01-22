@@ -8,9 +8,9 @@ namespace ShopApp.Dtos
 {
     public class ShopDto
     {
-        public int ShopId { get; set; }
-        public string ShopName { get; set; }
-        public List<ProductDto> Products { get; set; }
-        public DateTime Created { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<ProductDto> Products { get; set; } = new List<ProductDto>();
+        public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

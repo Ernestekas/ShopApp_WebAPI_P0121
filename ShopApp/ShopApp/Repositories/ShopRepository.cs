@@ -17,5 +17,10 @@ namespace ShopApp.Repositories
         {
             return _context.Shops.Include(s => s.Products).ToList();
         }
+
+        public Shop GetByIdIncluded(int id)
+        {
+            return _context.Shops.Include(x => x.Products).FirstOrDefault(x => x.Id == id);
+        }
     }
 }
