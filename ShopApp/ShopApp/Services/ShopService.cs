@@ -62,7 +62,7 @@ namespace ShopApp.Services
                 Name = shop.Name
             };
 
-            _shopValidator.TryValidateShopCreation(newShop);
+            _shopValidator.TryValidateShopCreation(newShop, _shopRepository.GetAll().Select(s => s.Name).ToList());
 
             return _shopRepository.Create(newShop);
         }
@@ -70,10 +70,13 @@ namespace ShopApp.Services
         public void Update(int id, string newName)
         {
             Shop shop = _shopRepository.GetById(id);
+            string oldName = shop.Name;
+
             _shopValidator.TryValidateGet(shop);
 
             shop.Name = newName;
-            _shopValidator.TryValidateShopUpdate(id, shop);
+
+            _shopValidator.TryValidateShopUpdate(id, oldName, shop, _shopRepository.GetAll().Select(s => s.Name).ToList());
 
             _shopRepository.Update(shop);
         }

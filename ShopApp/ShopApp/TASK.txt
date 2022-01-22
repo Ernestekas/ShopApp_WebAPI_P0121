@@ -5,8 +5,10 @@ Try to write logic in Services
 This is a webapi
 
 Web Api for online Shop with ShopItems
+
 -Shop can have list of Shopitems
--Shop: Name (must be longer than 4characters) and must be unique
+
+-Shop: name (must be longer than 4characters) and must be unique
 	  CreatedDate (Should be assigned by database to currentDate)
 
 -ShopItem: Name,
@@ -24,5 +26,5 @@ Extra requirements:
 https://fluentvalidation.net/
 		2. Employ AutoMapper
 		https://docs.automapper.org/en/stable/Getting-started.html
-3. Try Createting Custom Exceptions
-https://docs.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-user-defined-exceptions
+		3. Try Createting Custom Exceptions
+		https://docs.microsoft.com/en-us/dotnet/standard/exceptions/how-to-create-user-defined-exceptions
