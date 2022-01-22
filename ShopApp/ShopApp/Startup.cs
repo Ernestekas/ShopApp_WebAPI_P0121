@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ShopApp.Data;
 using ShopApp.Dtos.MappingProfiles;
+using ShopApp.Dtos.ValidationModels;
 using ShopApp.Repositories;
 using ShopApp.Services;
 using System;
@@ -38,6 +39,9 @@ namespace ShopApp
             services.AddDbContext<DataContext>(d => d.UseSqlServer(defaultConnection));
 
             services.AddAutoMapper(typeof(ShopProfile));
+            services.AddAutoMapper(typeof(ProductProfile));
+
+            services.AddTransient<ShopValidator>();
 
             services.AddTransient<ShopService>();
             services.AddTransient<ShopRepository>();
