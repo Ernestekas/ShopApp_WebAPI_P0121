@@ -35,7 +35,7 @@ namespace ShopApp.Controllers
         public IActionResult Add(ShopDto shop)
         {
             int id = _shopService.Create(shop);
-            return Created($"~/Shop/{id}", _shopService.GetById(id));
+            return Created($"~/Shops/{id}", _shopService.GetById(id));
         }
 
         [HttpPut("{id}")]
