@@ -53,7 +53,7 @@ namespace ShopApp.Controllers
             try
             {
                 int id = _shopService.Create(shop);
-                return Created($"~/Shops/{id}", _shopService.GetById(id));
+                return Created($"~/Api/Shops/{id}", _shopService.GetById(id));
             }
             catch (ShopCreationException ex)
             {
