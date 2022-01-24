@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopApp.Dtos;
 using ShopApp.Dtos.ErrorModels.ShopExceptions;
 using ShopApp.Services;
