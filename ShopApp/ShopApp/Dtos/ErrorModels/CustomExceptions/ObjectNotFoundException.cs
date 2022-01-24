@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace ShopApp.Dtos.ErrorModels.CustomExceptions
 {
+    [Serializable]
     public class ObjectNotFoundException : Exception
     {
-        public ObjectNotFoundException() { }
-
         public ObjectNotFoundException(string message)
             : base(message) { }
     }

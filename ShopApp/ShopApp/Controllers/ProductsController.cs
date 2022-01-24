@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopApp.Dtos;
-using ShopApp.Dtos.ErrorModels.ProductExceptions;
-using ShopApp.Dtos.ErrorModels.ShopExceptions;
+using ShopApp.Dtos.ErrorModels.CustomExceptions;
 using ShopApp.Services;
 using System;
 using System.Collections.Generic;
@@ -41,7 +40,7 @@ namespace ShopApp.Controllers
                 ProductDto result = _productService.GetById(id);
                 return Ok(result);
             }
-            catch (ProductNotFoundException ex)
+            catch (ObjectNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -55,11 +54,11 @@ namespace ShopApp.Controllers
                 int id = _productService.Create(product);
                 return Created($"~/Products/{id}", _productService.GetById(id));
             }
-            catch (ProductCreationException ex)
+            catch (ObjectDataException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (ShopNotFoundException ex)
+            catch (ObjectNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -73,11 +72,11 @@ namespace ShopApp.Controllers
                 _productService.Update(id, product);
                 return Ok("Product updated.");
             }
-            catch (ProductUpdateException ex)
+            catch (ObjectDataException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (ShopNotFoundException ex)
+            catch (ObjectNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -91,7 +90,7 @@ namespace ShopApp.Controllers
                 _productService.Delete(id);
                 return NoContent();
             }
-            catch (ProductNotFoundException ex)
+            catch (ObjectNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }

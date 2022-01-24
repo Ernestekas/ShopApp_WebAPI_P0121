@@ -46,12 +46,15 @@ namespace ShopApp.Services
         public int Create(ProductDto product)
         {
             Product newProduct = new Product();
+            Shop shop = _shopRepository.GetById(product.ShopId);
 
             product.Id = 0;
             _mapper.Map(product, newProduct);
 
-            _productValidator.TryValidateProductCreation(newProduct);
-            _shopValidator.TryValidateGet(_shopRepository.GetById(product.ShopId));
+            _productValidator.TryValidateProduct(newProduct, false);
+            _shopValidator.TryValidateGet(shop);
+
+            newProduct.Shop = shop;
 
             return _productRepository.Create(newProduct);
         }
@@ -64,7 +67,8 @@ namespace ShopApp.Services
             updated.Id = id;
             updated.Shop = _shopRepository.GetById(product.ShopId);
 
-            _productValidator.TryValidateProductUpdate(id, updated);
+            _productValidator.TryValidateProduct(updated, true);
+            _shopValidator.TryValidateGet(updated.Shop);
 
             _productRepository.Update(updated);
         }

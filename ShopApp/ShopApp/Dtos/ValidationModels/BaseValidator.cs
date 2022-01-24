@@ -2,8 +2,6 @@
 using FluentValidation.Results;
 using ShopApp.Dtos.ErrorModels;
 using ShopApp.Dtos.ErrorModels.CustomExceptions;
-using ShopApp.Dtos.ErrorModels.ShopExceptions;
-using ShopApp.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,7 +15,7 @@ namespace ShopApp.Dtos.ValidationModels
         {
             if (obj == null)
             {
-                throw new ObjectNotFoundException($"No objects with this 'Id' found.");
+                throw new ObjectNotFoundException($"No {typeof(T).Name} with this 'Id' found.");
             }
         }
 
@@ -44,19 +42,6 @@ namespace ShopApp.Dtos.ValidationModels
 
             return errorModel;
         }
-
-        //public ErrorModel CheckIdIsSame(int id, T obj, ErrorModel errorModel)
-        //{
-        //    PropertyInfo prop = obj.GetType().GetProperty("Id");
-        //    int objId = (int)prop.GetValue(obj, null);
-
-        //    if(id != objId)
-        //    {
-        //        errorModel.ErrorMessages.Add("Input 'id' must be equal to 'id' from db.");
-        //    }
-
-        //    return errorModel;
-        //}
 
         public ErrorModel TryValidateUniqueName(string oldName, T obj, List<string> namesToCompareTo, ErrorModel error)
         {

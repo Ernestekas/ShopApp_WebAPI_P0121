@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using ShopApp.Dtos.ErrorModels;
-using ShopApp.Dtos.ErrorModels.ProductExceptions;
 using ShopApp.Models;
-using System.Linq;
 
 namespace ShopApp.Dtos.ValidationModels
 {
@@ -15,40 +12,16 @@ namespace ShopApp.Dtos.ValidationModels
             RuleFor(p => p.Price).GreaterThan(0);
         }
 
-        //public void TryValidateGet(Product product)
-        //{
-        //    if (product == null)
-        //    {
-        //        throw new ProductNotFoundException("Product with inputed 'Id' doesn't exist.");
-        //    }
-        //}
-
-        public void TryValidateProductCreation(Product product)
+        public void TryValidateProduct(Product product, bool updating)
         {
             var error = new ErrorModel();
-
-            ValidationResult validation = Validate(product);
-            error.ErrorMessages.AddRange(validation.Errors.Select(x => x.ErrorMessage).ToList());
-            error = CheckIdIsZero(product, error);
-
-            if(error.ErrorMessages.Count > 0)
+            
+            if (!updating)
             {
-                throw new ProductCreationException(string.Join("; ", error.ErrorMessages));
+                error = CheckIdIsZero(product, error);
             }
-        }
 
-        public void TryValidateProductUpdate(int id, Product productUpdated)
-        {
-            var error = new ErrorModel();
-
-            ValidationResult validation = Validate(productUpdated);
-            error.ErrorMessages.AddRange(validation.Errors.Select(x => x.ErrorMessage).ToList());
-            //error = CheckIdIsSame(id, productUpdated , error);
-
-            if( error.ErrorMessages.Count > 0)
-            {
-                throw new ProductUpdateException(string.Join("; ", error.ErrorMessages));
-            }
+            TryValidateBase(product, error);
         }
     }
 }

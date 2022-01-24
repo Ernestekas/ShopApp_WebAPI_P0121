@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using ShopApp.Dtos.ErrorModels;
-using ShopApp.Dtos.ErrorModels.ShopExceptions;
 using ShopApp.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ShopApp.Dtos.ValidationModels
 {
