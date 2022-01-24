@@ -42,6 +42,7 @@ namespace ShopApp
             services.AddAutoMapper(typeof(ProductProfile));
 
             services.AddTransient<ShopValidator>();
+            services.AddTransient<ProductValidator>();
 
             services.AddTransient<ShopService>();
             services.AddTransient<ShopRepository>();

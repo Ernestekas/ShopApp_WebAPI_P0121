@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.Dtos;
+using ShopApp.Dtos.ErrorModels.ProductExceptions;
+using ShopApp.Dtos.ErrorModels.ShopExceptions;
 using ShopApp.Services;
+using System;
 using System.Collections.Generic;
 
 namespace ShopApp.Controllers
@@ -21,36 +24,79 @@ namespace ShopApp.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<ProductDto> result = _productService.GetAll();
-            return Ok(result);
+            try
+            {
+                List<ProductDto> result = _productService.GetAll();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            ProductDto result = _productService.GetById(id);
-            return Ok(result);
+            try
+            {
+                ProductDto result = _productService.GetById(id);
+                return Ok(result);
+            }
+            catch (ProductNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost]
         public IActionResult Add(ProductDto product)
         {
-            int id = _productService.Create(product);
-            return Created($"~/Products/{id}", _productService.GetById(id));
+            try
+            {
+                int id = _productService.Create(product);
+                return Created($"~/Products/{id}", _productService.GetById(id));
+            }
+            catch (ProductCreationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ShopNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, ProductDto product)
         {
-            _productService.Update(id, product);
-            return Ok("Product updated.");
+            try
+            {
+                _productService.Update(id, product);
+                return Ok("Product updated.");
+            }
+            catch (ProductUpdateException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ShopNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _productService.Delete(id);
-            return NoContent();
+            try
+            {
+                _productService.Delete(id);
+                return NoContent();
+            }
+            catch (ProductNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

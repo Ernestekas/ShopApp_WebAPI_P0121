@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ShopApp.Dtos;
+using ShopApp.Dtos.ValidationModels;
 using ShopApp.Models;
 using ShopApp.Repositories;
 using System;
@@ -13,17 +14,23 @@ namespace ShopApp.Services
     public class ProductService
     {
         private readonly ProductRepository _productRepository;
+        private readonly ShopRepository _shopRepository;
         private readonly IMapper _mapper;
+        private readonly ProductValidator _productValidator;
+        private readonly ShopValidator _shopValidator;
 
-        public ProductService(ProductRepository productRepository, IMapper mapper)
+        public ProductService(ProductRepository productRepository, ShopRepository shopRepository, IMapper mapper, ProductValidator productValidator, ShopValidator shopValidator)
         {
             _productRepository = productRepository;
+            _shopRepository = shopRepository;
             _mapper = mapper;
+            _productValidator = productValidator;
+            _shopValidator = shopValidator;
         }
 
         public List<ProductDto> GetAll()
         {
-            List<ProductDto> result = MapProducts(_productRepository.GetAll());
+            List<ProductDto> result = MapProducts(_productRepository.GetAllIncluded());
 
             return result;
         }
@@ -33,6 +40,8 @@ namespace ShopApp.Services
             ProductDto result = new ProductDto();
             Product product = _productRepository.GetByIdIncluded(id);
 
+            _productValidator.TryValidateGet(product);
+            
             result.ShopName = product.Shop.Name;
             
             return _mapper.Map(product, result);
@@ -45,25 +54,37 @@ namespace ShopApp.Services
             product.Id = 0;
             _mapper.Map(product, newProduct);
 
+            _productValidator.TryValidateProductCreation(newProduct);
+            _shopValidator.TryValidateGet(_shopRepository.GetById(product.ShopId));
+
             return _productRepository.Create(newProduct);
         }
 
         public void Update(int id, ProductDto product)
         {
+            //Product updated = _productRepository.GetById(id);
+            //updated.Name = product.Name;
+            //updated.ShopId = product.ShopId;
+            //updated.Price = product.Price;
             Product updated = new Product();
-            
+
             _mapper.Map(product, updated);
             updated.Id = id;
+            updated.Shop = _shopRepository.GetById(product.ShopId);
+
+            _productValidator.TryValidateProductUpdate(id, updated);
 
             _productRepository.Update(updated);
         }
 
         public void Delete(int id)
         {
+            Product product = _productRepository.GetById(id);
+
+            _productValidator.TryValidateGet(product);
+
             _productRepository.Remove(id);
         }
-
-        public int MyProperty { get; set; }
 
         private List<ProductDto> MapProducts(List<Product> products)
         {

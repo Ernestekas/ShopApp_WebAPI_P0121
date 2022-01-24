@@ -13,6 +13,10 @@ namespace ShopApp.Repositories
     {
         public ProductRepository(DataContext context) : base(context) { }
 
+        public List<Product> GetAllIncluded()
+        {
+            return _context.Products.Include(x => x.Shop).ToList();
+        }
         public Product GetByIdIncluded(int id)
         {
             return _context.Products.Include(x => x.Shop).FirstOrDefault(x => x.Id == id);
