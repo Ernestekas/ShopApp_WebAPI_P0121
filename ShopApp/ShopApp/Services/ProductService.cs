@@ -58,10 +58,6 @@ namespace ShopApp.Services
 
         public void Update(int id, ProductDto product)
         {
-            //Product updated = _productRepository.GetById(id);
-            //updated.Name = product.Name;
-            //updated.ShopId = product.ShopId;
-            //updated.Price = product.Price;
             Product updated = new Product();
 
             _mapper.Map(product, updated);

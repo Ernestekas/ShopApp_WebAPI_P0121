@@ -11,8 +11,8 @@ Web Api for online Shop with ShopItems
 -Shop: name (must be longer than 4characters) and must be unique
 	  CreatedDate (Should be assigned by database to currentDate)
 
--ShopItem: Name,
-		  Price (must be more than 0)
+		-ShopItem: Name,
+				Price (must be more than 0)
 
 Main Requirements:
 
@@ -22,8 +22,8 @@ Main Requirements:
 		2. Expose Dtos instead of models/dtos
 
 Extra requirements:
-1. Instead of ModelState
-https://fluentvalidation.net/
+		1. Instead of ModelState
+		https://fluentvalidation.net/
 		2. Employ AutoMapper
 		https://docs.automapper.org/en/stable/Getting-started.html
 		3. Try Createting Custom Exceptions

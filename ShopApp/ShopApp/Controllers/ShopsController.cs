@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopApp.Dtos;
+using ShopApp.Dtos.ErrorModels.CustomExceptions;
 using ShopApp.Dtos.ErrorModels.ShopExceptions;
 using ShopApp.Services;
 using System;
@@ -40,7 +41,7 @@ namespace ShopApp.Controllers
                 ShopDto result = _shopService.GetById(id);
                 return Ok(result);
             }
-            catch (ShopNotFoundException ex)
+            catch (ObjectNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -54,7 +55,7 @@ namespace ShopApp.Controllers
                 int id = _shopService.Create(shop);
                 return Created($"~/Api/Shops/{id}", _shopService.GetById(id));
             }
-            catch (ShopCreationException ex)
+            catch (ObjectDataException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -68,11 +69,11 @@ namespace ShopApp.Controllers
                 _shopService.Update(id, shopName);
                 return Ok("Shop updated.");
             }
-            catch (ShopNotFoundException ex)
+            catch (ObjectNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch (ShopUpdateException ex)
+            catch (ObjectDataException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -86,7 +87,7 @@ namespace ShopApp.Controllers
                 _shopService.Delete(id);
                 return NoContent();
             }
-            catch (ShopNotFoundException ex)
+            catch (ObjectNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }

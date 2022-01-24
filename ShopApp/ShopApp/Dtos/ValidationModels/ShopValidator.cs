@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ShopApp.Dtos.ValidationModels
 {
-    public class ShopValidator : AbstractValidator<Shop>
+    public class ShopValidator : BaseValidator<Shop>
     {
         public ShopValidator()
         {
@@ -16,78 +16,17 @@ namespace ShopApp.Dtos.ValidationModels
             RuleFor(s => s.Name).MinimumLength(5);
         }
 
-        public void TryValidateGet(Shop shop)
-        {
-            if(shop == null)
-            {
-                throw new ShopNotFoundException($"No shops with this 'Id' exists.");
-            }
-        }
-        public void TryValidateShopCreation(Shop shop, List<string> existingShopNames)
+        public void TryValidateShop(Shop shop, List<string> existingShopNames, string oldShopName = null)
         {
             var error = new ErrorModel();
 
-            ValidationResult validation = Validate(shop);
-            error.ErrorMessages.AddRange(validation.Errors.Select(x => x.ErrorMessage).ToList());
-            error = CheckIdIsZero(shop.Id, error);
+            if (string.IsNullOrWhiteSpace(oldShopName))
+            {
+                error = CheckIdIsZero(shop, error);
+            }
+
             error = TryValidateUniqueName(null, shop, existingShopNames, error);
-
-            if(error.ErrorMessages.Count > 0)
-            {
-                throw new ShopCreationException(string.Join("; ", error.ErrorMessages));
-            }
-        }
-
-        public void TryValidateShopUpdate(int id, string oldName, Shop shop, List<string> existingShopsNames)
-        {
-            var error = new ErrorModel();
-
-            ValidationResult validation = Validate(shop);
-            error.ErrorMessages.AddRange(validation.Errors.Select(x => x.ErrorMessage).ToList());
-            error = CheckIdIsSame(id, shop, error);
-            error = TryValidateUniqueName(oldName, shop, existingShopsNames, error);
-
-            if(error.ErrorMessages.Count > 0)
-            {
-                throw new ShopUpdateException(string.Join("; ", error.ErrorMessages));
-            }
-        }
-
-        private ErrorModel TryValidateUniqueName(string oldName, Shop shop, List<string> existingShopsNames, ErrorModel errorModel)
-        {
-            if(oldName == shop.Name || existingShopsNames == null)
-            {
-                return errorModel;
-            }
-
-            List<string> matching = existingShopsNames.Where(s => s == shop.Name).ToList();
-
-            if (matching.Count > 0)
-            {
-                errorModel.ErrorMessages.Add($"Shop with this name: '{shop.Name}' already exists.");
-            }
-
-            return errorModel;
-        }
-
-        private ErrorModel CheckIdIsZero(int id, ErrorModel errorModel)
-        {
-            if(id > 0)
-            {
-                errorModel.ErrorMessages.Add("ID - You can't enter custom Ids.");
-            }
-
-            return errorModel;
-        }
-
-        private ErrorModel CheckIdIsSame(int id, Shop shop, ErrorModel errorModel)
-        {
-            if(id != shop.Id)
-            {
-                errorModel.ErrorMessages.Add("Input 'Id' and 'Id' from database must match.");
-            }
-
-            return errorModel;
+            TryValidateBase(shop, error);
         }
     }
 }
