@@ -1,4 +1,5 @@
-﻿using ShopApp.Dtos.ValidationModels;
+﻿using AutoMapper;
+using ShopApp.Dtos.ValidationModels;
 using ShopApp.Models;
 using ShopApp.Repositories;
 using System;
@@ -9,14 +10,18 @@ using System.Threading.Tasks;
 
 namespace ShopApp.Services
 {
-    public class BaseService<T>
+    public class ServiceBase<T, Y, U>
         where T : Entity
+        where Y : RepositoryBase<T>
+        where U : BaseValidator<T>
     {
-        private readonly RepositoryBase<T> _repository;
-        private readonly BaseValidator<T> _validator;
+        public IMapper _mapper;
+        public Y _repository;
+        public U _validator;
 
-        public BaseService(RepositoryBase<T> repository, BaseValidator<T> validator)
+        public ServiceBase(IMapper mapper, Y repository, U validator)
         {
+            _mapper = mapper;
             _repository = repository;
             _validator = validator;
         }
@@ -24,9 +29,7 @@ namespace ShopApp.Services
         public void Delete(int id)
         {
             T obj = _repository.GetById(id);
-
             _validator.TryValidateGet(obj);
-
             _repository.Remove(id);
         }
     }

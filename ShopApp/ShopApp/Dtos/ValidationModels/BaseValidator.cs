@@ -46,11 +46,9 @@ namespace ShopApp.Dtos.ValidationModels
                 return error;
             }
 
-            List<string> matching = namesToCompareTo.Where(x => x == obj.Name).ToList();
-
-            if (matching.Count > 0)
+            if (namesToCompareTo.Contains(obj.Name))
             {
-                error.ErrorMessages.Add($"{typeof(T).Name} with this name {obj.Name} already exists.");
+                error.ErrorMessages.Add($"{typeof(T).Name} with this name '{obj.Name}' already exists.");
             }
 
             return error;

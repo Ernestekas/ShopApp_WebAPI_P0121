@@ -31,8 +31,9 @@ namespace ShopApp
             var defaultConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataContext>(d => d.UseSqlServer(defaultConnection));
 
-            services.AddAutoMapper(typeof(ShopProfile));
-            services.AddAutoMapper(typeof(ProductProfile));
+            //services.AddAutoMapper(typeof(ShopProfile));
+            //services.AddAutoMapper(typeof(ProductProfile));
+            services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddTransient<ShopValidator>();
             services.AddTransient<ProductValidator>();

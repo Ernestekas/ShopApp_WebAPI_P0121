@@ -8,11 +8,17 @@ using System.Linq;
 
 namespace ShopApp.Services
 {
-    public class ShopService
+    public class ShopService : ServiceBase<Shop, ShopRepository, ShopValidator>
     {
         private readonly ShopRepository _shopRepository;
-        private readonly IMapper _mapper;
         private readonly ShopValidator _shopValidator;
+
+        public ShopService(ShopRepository shopRepository, IMapper mapper, ShopValidator shopValidator) : base(mapper, shopRepository, shopValidator)
+        {
+            _shopRepository = shopRepository;
+            _mapper = mapper;
+            _shopValidator = shopValidator;
+        }
 
         public List<ShopDto> GetAll()
         {
@@ -70,15 +76,6 @@ namespace ShopApp.Services
             _shopValidator.TryValidateShop(shop, shopsNames, oldName);
 
             _shopRepository.Update(shop);
-        }
-
-        public void Delete(int id)
-        {
-            Shop shop = _shopRepository.GetById(id);
-            
-            _shopValidator.TryValidateGet(shop);
-
-            _shopRepository.Remove(id);
         }
 
         private List<ProductDto> MapProducts(List<Product> products)
