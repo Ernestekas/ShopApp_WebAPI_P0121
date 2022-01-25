@@ -14,13 +14,6 @@ namespace ShopApp.Services
         private readonly IMapper _mapper;
         private readonly ShopValidator _shopValidator;
 
-        public ShopService(ShopRepository shopRepository, IMapper mapper, ShopValidator shopValidator)
-        {
-            _shopRepository = shopRepository;
-            _mapper = mapper;
-            _shopValidator = shopValidator;
-        }
-
         public List<ShopDto> GetAll()
         {
             List<ShopDto> result = new();

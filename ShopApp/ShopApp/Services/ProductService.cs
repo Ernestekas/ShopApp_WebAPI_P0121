@@ -85,6 +85,7 @@ namespace ShopApp.Services
         private List<ProductDto> MapProducts(List<Product> products)
         {
             List<ProductDto> result = new List<ProductDto>();
+
             foreach (Product product in products)
             {
                 ProductDto productDto = new ProductDto();
