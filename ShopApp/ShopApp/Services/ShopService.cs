@@ -23,12 +23,12 @@ namespace ShopApp.Services
 
         public List<ShopDto> GetAll()
         {
-            List<ShopDto> result = new List<ShopDto>();
+            List<ShopDto> result = new();
             List<Shop> shops = _shopRepository.GetAllIncluded();
 
             foreach(var shop in shops)
             {
-                ShopDto shopDto = new ShopDto();
+                ShopDto shopDto = new();
 
                 _mapper.Map(shop, shopDto);
                 shopDto.Products = MapProducts(shop.Products);
@@ -41,7 +41,7 @@ namespace ShopApp.Services
 
         public ShopDto GetById(int id)
         {
-            ShopDto result = new ShopDto();
+            ShopDto result = new();
             Shop shop = _shopRepository.GetByIdIncluded(id);
 
             _shopValidator.TryValidateGet(shop);
@@ -54,7 +54,7 @@ namespace ShopApp.Services
 
         public int Create(ShopDto shop)
         {
-            Shop newShop = new Shop()
+            Shop newShop = new()
             {
                 Name = shop.Name
             };
@@ -90,11 +90,11 @@ namespace ShopApp.Services
 
         private List<ProductDto> MapProducts(List<Product> products)
         {
-            List<ProductDto> result = new List<ProductDto>();
+            List<ProductDto> result = new();
 
             foreach(var product in products)
             {
-                ProductDto productDto = new ProductDto();
+                ProductDto productDto = new();
                 _mapper.Map(product, productDto);
                 result.Add(productDto);
             }

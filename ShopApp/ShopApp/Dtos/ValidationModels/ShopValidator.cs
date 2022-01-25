@@ -22,7 +22,7 @@ namespace ShopApp.Dtos.ValidationModels
                 error = CheckIdIsZero(shop, error);
             }
 
-            error = TryValidateUniqueName(null, shop, existingShopNames, error);
+            error = TryValidateUniqueName(oldShopName, shop, existingShopNames, error);
             TryValidateBase(shop, error);
         }
     }
