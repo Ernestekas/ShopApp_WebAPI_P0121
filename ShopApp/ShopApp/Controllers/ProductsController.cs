@@ -4,9 +4,11 @@ using ShopApp.Dtos.ErrorModels.CustomExceptions;
 using ShopApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Web.Http.Cors;
 
 namespace ShopApp.Controllers
 {
+    //[EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase

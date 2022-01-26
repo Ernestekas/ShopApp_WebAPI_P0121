@@ -28,11 +28,11 @@ namespace ShopApp
 
             services.AddControllers();
 
+            services.AddCors();
+
             var defaultConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataContext>(d => d.UseSqlServer(defaultConnection));
 
-            //services.AddAutoMapper(typeof(ShopProfile));
-            //services.AddAutoMapper(typeof(ProductProfile));
             services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddTransient<ShopValidator>();
@@ -53,6 +53,11 @@ namespace ShopApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options =>
+            options.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
