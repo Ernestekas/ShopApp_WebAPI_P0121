@@ -25,7 +25,7 @@ namespace ShopApp.Services
             _shopValidator = shopValidator;
         }
 
-        public async Task<List<ProductDto>> GetAll()
+        public async Task<List<ProductDto>> GetAllAsync()
         {
             List<Product> products = await _productRepository.GetAllIncluded();
             List<ProductDto> result = MapProducts(products);
@@ -33,7 +33,7 @@ namespace ShopApp.Services
             return result;
         }
 
-        public async Task<ProductDto> GetById(int id)
+        public async Task<ProductDto> GetByIdAsync(int id)
         {
             ProductDto result = new ProductDto();
             Product product = await _productRepository.GetByIdIncluded(id);
@@ -45,7 +45,7 @@ namespace ShopApp.Services
             return _mapper.Map(product, result);
         }
 
-        public async Task<int> Create(ProductDto product)
+        public async Task<int> CreateAsync(ProductDto product)
         {
             Product newProduct = new Product();
             Shop shop = await _shopRepository.GetById(product.ShopId);
@@ -61,7 +61,7 @@ namespace ShopApp.Services
             return await _productRepository.Create(newProduct);
         }
 
-        public async void Update(int id, ProductDto product)
+        public async void UpdateAsync(int id, ProductDto product)
         {
             Product updated = new Product();
 
@@ -75,7 +75,7 @@ namespace ShopApp.Services
             _productRepository.Update(updated);
         }
 
-        public async void Delete(int id)
+        public async void DeleteAsync(int id)
         {
             Product product = await _productRepository.GetById(id);
 

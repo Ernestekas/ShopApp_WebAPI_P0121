@@ -24,7 +24,7 @@ namespace ShopApp.Controllers
         {
             try
             {
-                List<ShopDto> result = await _shopService.GetAll();
+                List<ShopDto> result = await _shopService.GetAllAsync();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace ShopApp.Controllers
         {
             try
             {
-                ShopDto result = await _shopService.GetById(id);
+                ShopDto result = await _shopService.GetByIdAsync(id);
                 return Ok(result);
             }
             catch (ObjectNotFoundException ex)
@@ -52,8 +52,8 @@ namespace ShopApp.Controllers
         {
             try
             {
-                int id = await _shopService.Create(shop);
-                ShopDto shopDto = await _shopService.GetById(id);
+                int id = await _shopService.CreateAsync(shop);
+                ShopDto shopDto = await _shopService.GetByIdAsync(id);
 
                 return Created($"~/Api/Shops/{id}", shopDto);
             }
@@ -68,7 +68,7 @@ namespace ShopApp.Controllers
         {
             try
             {
-                _shopService.Update(id, shopName);
+                _shopService.UpdateAsync(id, shopName);
                 return Ok("Shop updated.");
             }
             catch (ObjectNotFoundException ex)

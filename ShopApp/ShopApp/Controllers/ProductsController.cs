@@ -24,7 +24,7 @@ namespace ShopApp.Controllers
         {
             try
             {
-                List<ProductDto> result = await _productService.GetAll();
+                List<ProductDto> result = await _productService.GetAllAsync();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace ShopApp.Controllers
         {
             try
             {
-                ProductDto result = await _productService.GetById(id);
+                ProductDto result = await _productService.GetByIdAsync(id);
                 return Ok(result);
             }
             catch (ObjectNotFoundException ex)
@@ -52,8 +52,8 @@ namespace ShopApp.Controllers
         {
             try
             {
-                int id = await _productService.Create(product);
-                return Created($"~/Products/{id}", _productService.GetById(id));
+                int id = await _productService.CreateAsync(product);
+                return Created($"~/Products/{id}", _productService.GetByIdAsync(id));
             }
             catch (ObjectDataException ex)
             {
@@ -70,7 +70,7 @@ namespace ShopApp.Controllers
         {
             try
             {
-                _productService.Update(id, product);
+                _productService.UpdateAsync(id, product);
                 return Ok("Product updated.");
             }
             catch (ObjectDataException ex)
@@ -88,7 +88,7 @@ namespace ShopApp.Controllers
         {
             try
             {
-                _productService.Delete(id);
+                _productService.DeleteAsync(id);
                 return NoContent();
             }
             catch (ObjectNotFoundException ex)

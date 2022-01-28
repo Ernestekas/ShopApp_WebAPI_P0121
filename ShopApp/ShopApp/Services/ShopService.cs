@@ -21,7 +21,7 @@ namespace ShopApp.Services
             _shopValidator = shopValidator;
         }
 
-        public async Task<List<ShopDto>> GetAll()
+        public async Task<List<ShopDto>> GetAllAsync()
         {
             List<ShopDto> result = new();
             List<Shop> shops = await _shopRepository.GetAllIncluded();
@@ -39,7 +39,7 @@ namespace ShopApp.Services
             return result;
         }
 
-        public async Task<ShopDto> GetById(int id)
+        public async Task<ShopDto> GetByIdAsync(int id)
         {
             ShopDto result = new();
             Shop shop = await _shopRepository.GetByIdIncluded(id);
@@ -52,7 +52,7 @@ namespace ShopApp.Services
             return result;
         }
 
-        public async Task<int> Create(ShopDto shop)
+        public async Task<int> CreateAsync(ShopDto shop)
         {
             Shop newShop = new()
             {
@@ -64,7 +64,7 @@ namespace ShopApp.Services
             return await _shopRepository.Create(newShop);
         }
 
-        public async void Update(int id, string newName)
+        public async void UpdateAsync(int id, string newName)
         {
             Shop shop = await _shopRepository.GetById(id);
             List<Shop> shops = await _shopRepository.GetAll();
