@@ -5,7 +5,6 @@ using ShopApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Http.Cors;
 
 namespace ShopApp.Controllers
 {
@@ -21,11 +20,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                List<ProductDto> result = _productService.GetAll();
+                List<ProductDto> result = await _productService.GetAll();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -35,11 +34,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                ProductDto result = _productService.GetById(id);
+                ProductDto result = await _productService.GetById(id);
                 return Ok(result);
             }
             catch (ObjectNotFoundException ex)

@@ -25,17 +25,18 @@ namespace ShopApp.Services
             _shopValidator = shopValidator;
         }
 
-        public List<ProductDto> GetAll()
+        public async Task<List<ProductDto>> GetAll()
         {
-            List<ProductDto> result = MapProducts(_productRepository.GetAllIncluded());
+            List<Product> products = await _productRepository.GetAllIncluded();
+            List<ProductDto> result = MapProducts(products);
 
             return result;
         }
 
-        public ProductDto GetById(int id)
+        public async Task<ProductDto> GetById(int id)
         {
             ProductDto result = new ProductDto();
-            Product product = _productRepository.GetByIdIncluded(id);
+            Product product = await _productRepository.GetByIdIncluded(id);
 
             _productValidator.TryValidateGet(product);
             

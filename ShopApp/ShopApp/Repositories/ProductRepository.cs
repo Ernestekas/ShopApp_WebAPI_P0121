@@ -3,6 +3,7 @@ using ShopApp.Data;
 using ShopApp.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopApp.Repositories
 {
@@ -10,13 +11,13 @@ namespace ShopApp.Repositories
     {
         public ProductRepository(DataContext context) : base(context) { }
 
-        public List<Product> GetAllIncluded()
+        public async Task<List<Product>> GetAllIncluded()
         {
-            return _context.Products.Include(x => x.Shop).ToList();
+            return await _context.Products.Include(x => x.Shop).ToListAsync();
         }
-        public Product GetByIdIncluded(int id)
+        public async Task<Product> GetByIdIncluded(int id)
         {
-            return _context.Products.Include(x => x.Shop).FirstOrDefault(x => x.Id == id);
+            return await _context.Products.Include(x => x.Shop).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }
