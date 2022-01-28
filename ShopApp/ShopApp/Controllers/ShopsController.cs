@@ -4,6 +4,7 @@ using ShopApp.Dtos.ErrorModels.CustomExceptions;
 using ShopApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShopApp.Controllers
 {
@@ -19,11 +20,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                List<ShopDto> result = _shopService.GetAll();
+                List<ShopDto> result = await _shopService.GetAll();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -33,11 +34,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                ShopDto result = _shopService.GetById(id);
+                ShopDto result = await _shopService.GetById(id);
                 return Ok(result);
             }
             catch (ObjectNotFoundException ex)
@@ -47,12 +48,14 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(ShopDto shop)
+        public async Task<IActionResult> Add(ShopDto shop)
         {
             try
             {
-                int id = _shopService.Create(shop);
-                return Created($"~/Api/Shops/{id}", _shopService.GetById(id));
+                int id = await _shopService.Create(shop);
+                ShopDto shopDto = await _shopService.GetById(id);
+
+                return Created($"~/Api/Shops/{id}", shopDto);
             }
             catch (ObjectDataException ex)
             {

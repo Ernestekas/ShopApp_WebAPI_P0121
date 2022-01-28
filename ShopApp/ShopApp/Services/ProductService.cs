@@ -4,6 +4,7 @@ using ShopApp.Dtos.ValidationModels;
 using ShopApp.Models;
 using ShopApp.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShopApp.Services
 {
@@ -43,10 +44,10 @@ namespace ShopApp.Services
             return _mapper.Map(product, result);
         }
 
-        public int Create(ProductDto product)
+        public async Task<int> Create(ProductDto product)
         {
             Product newProduct = new Product();
-            Shop shop = _shopRepository.GetById(product.ShopId);
+            Shop shop = await _shopRepository.GetById(product.ShopId);
 
             product.Id = 0;
             _mapper.Map(product, newProduct);
@@ -56,16 +57,16 @@ namespace ShopApp.Services
 
             newProduct.Shop = shop;
 
-            return _productRepository.Create(newProduct);
+            return await _productRepository.Create(newProduct);
         }
 
-        public void Update(int id, ProductDto product)
+        public async void Update(int id, ProductDto product)
         {
             Product updated = new Product();
 
             _mapper.Map(product, updated);
             updated.Id = id;
-            updated.Shop = _shopRepository.GetById(product.ShopId);
+            updated.Shop = await _shopRepository.GetById(product.ShopId);
 
             _productValidator.TryValidateProduct(updated, true);
             _shopValidator.TryValidateGet(updated.Shop);
@@ -73,9 +74,9 @@ namespace ShopApp.Services
             _productRepository.Update(updated);
         }
 
-        public void Delete(int id)
+        public async void Delete(int id)
         {
-            Product product = _productRepository.GetById(id);
+            Product product = await _productRepository.GetById(id);
 
             _productValidator.TryValidateGet(product);
 

@@ -4,6 +4,7 @@ using ShopApp.Dtos.ErrorModels.CustomExceptions;
 using ShopApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http.Cors;
 
 namespace ShopApp.Controllers
@@ -48,11 +49,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(ProductDto product)
+        public async Task<IActionResult> Add(ProductDto product)
         {
             try
             {
-                int id = _productService.Create(product);
+                int id = await _productService.Create(product);
                 return Created($"~/Products/{id}", _productService.GetById(id));
             }
             catch (ObjectDataException ex)

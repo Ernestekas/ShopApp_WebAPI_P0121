@@ -3,6 +3,7 @@ using ShopApp.Data;
 using ShopApp.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopApp.Repositories
 {
@@ -17,47 +18,47 @@ namespace ShopApp.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public List<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
 
-        public T GetById(int entityId)
+        public async Task<T> GetById(int entityId)
         {
-            return _dbSet.FirstOrDefault(x => x.Id == entityId);
+            return await _dbSet.FirstOrDefaultAsync(x => x.Id == entityId);
         }
 
-        public int Create(T entity)
+        public async Task<int> Create(T entity)
         {
             _context.Add(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return entity.Id;
         }
 
-        public void CreateRange(List<T> entities)
+        public async void CreateRange(List<T> entities)
         {
             _context.AddRange(entities);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(T entity)
+        public async void Update(T entity)
         {
             _context.Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Remove(int entityId)
+        public async void Remove(int entityId)
         {
-            var entity = GetById(entityId);
+            var entity = await GetById(entityId);
 
             _context.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void RemoveRange(List<T> entities)
+        public async void RemoveRange(List<T> entities)
         {
             _context.RemoveRange(entities);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

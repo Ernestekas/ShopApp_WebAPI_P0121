@@ -5,6 +5,7 @@ using ShopApp.Models;
 using ShopApp.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopApp.Services
 {
@@ -20,10 +21,10 @@ namespace ShopApp.Services
             _shopValidator = shopValidator;
         }
 
-        public List<ShopDto> GetAll()
+        public async Task<List<ShopDto>> GetAll()
         {
             List<ShopDto> result = new();
-            List<Shop> shops = _shopRepository.GetAllIncluded();
+            List<Shop> shops = await _shopRepository.GetAllIncluded();
 
             foreach(var shop in shops)
             {
@@ -38,10 +39,10 @@ namespace ShopApp.Services
             return result;
         }
 
-        public ShopDto GetById(int id)
+        public async Task<ShopDto> GetById(int id)
         {
             ShopDto result = new();
-            Shop shop = _shopRepository.GetByIdIncluded(id);
+            Shop shop = await _shopRepository.GetByIdIncluded(id);
 
             _shopValidator.TryValidateGet(shop);
 
@@ -51,22 +52,23 @@ namespace ShopApp.Services
             return result;
         }
 
-        public int Create(ShopDto shop)
+        public async Task<int> Create(ShopDto shop)
         {
             Shop newShop = new()
             {
                 Name = shop.Name
             };
+            List<Shop> shops = await _shopRepository.GetAll();
+            _shopValidator.TryValidateShop(newShop, shops.Select(s => s.Name).ToList());
 
-            _shopValidator.TryValidateShop(newShop, _shopRepository.GetAll().Select(s => s.Name).ToList());
-
-            return _shopRepository.Create(newShop);
+            return await _shopRepository.Create(newShop);
         }
 
-        public void Update(int id, string newName)
+        public async void Update(int id, string newName)
         {
-            Shop shop = _shopRepository.GetById(id);
-            List<string> shopsNames = _shopRepository.GetAll().Select(s => s.Name).ToList();
+            Shop shop = await _shopRepository.GetById(id);
+            List<Shop> shops = await _shopRepository.GetAll();
+            List<string> shopsNames = shops.Select(s => s.Name).ToList();
             string oldName = shop.Name;
 
             _shopValidator.TryValidateGet(shop);

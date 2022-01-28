@@ -26,9 +26,9 @@ namespace ShopApp.Services
             _validator = validator;
         }
 
-        public void Delete(int id)
+        public async void Delete(int id)
         {
-            T obj = _repository.GetById(id);
+            T obj = await _repository.GetById(id);
             _validator.TryValidateGet(obj);
             _repository.Remove(id);
         }
