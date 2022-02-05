@@ -82,11 +82,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                _shopService.Delete(id);
+                await _shopService.DeleteAsync(id);
                 return NoContent();
             }
             catch (ObjectNotFoundException ex)

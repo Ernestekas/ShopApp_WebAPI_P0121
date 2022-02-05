@@ -58,16 +58,16 @@ namespace ShopApp.Services
             {
                 Name = shop.Name
             };
-            List<Shop> shops = await _shopRepository.GetAll();
+            List<Shop> shops = await _shopRepository.GetAllAsync();
             _shopValidator.TryValidateShop(newShop, shops.Select(s => s.Name).ToList());
 
-            return await _shopRepository.Create(newShop);
+            return await _shopRepository.CreateAsync(newShop);
         }
 
         public async void UpdateAsync(int id, string newName)
         {
-            Shop shop = await _shopRepository.GetById(id);
-            List<Shop> shops = await _shopRepository.GetAll();
+            Shop shop = await _shopRepository.GetByIdAsync(id);
+            List<Shop> shops = await _shopRepository.GetAllAsync();
             List<string> shopsNames = shops.Select(s => s.Name).ToList();
             string oldName = shop.Name;
 
@@ -77,7 +77,14 @@ namespace ShopApp.Services
 
             _shopValidator.TryValidateShop(shop, shopsNames, oldName);
 
-            _shopRepository.Update(shop);
+            _shopRepository.UpdateAsync(shop);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            Shop shop = await _shopRepository.GetByIdAsync(id);
+
+            await _repository.RemoveAsync(shop);
         }
 
         private List<ProductDto> MapProducts(List<Product> products)

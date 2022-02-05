@@ -18,46 +18,32 @@ namespace ShopApp.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public async Task<List<T>> GetAll()
+        public async Task<List<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T> GetById(int entityId)
+        public async Task<T> GetByIdAsync(int entityId)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Id == entityId);
         }
 
-        public async Task<int> Create(T entity)
+        public async Task<int> CreateAsync(T entity)
         {
             _context.Add(entity);
             await _context.SaveChangesAsync();
             return entity.Id;
         }
 
-        public async void CreateRange(List<T> entities)
-        {
-            _context.AddRange(entities);
-            await _context.SaveChangesAsync();
-        }
-
-        public async void Update(T entity)
+        public async void UpdateAsync(T entity)
         {
             _context.Update(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async void Remove(int entityId)
+        public async Task RemoveAsync(T entity)
         {
-            var entity = await GetById(entityId);
-
             _context.Remove(entity);
-            await _context.SaveChangesAsync();
-        }
-
-        public async void RemoveRange(List<T> entities)
-        {
-            _context.RemoveRange(entities);
             await _context.SaveChangesAsync();
         }
     }
