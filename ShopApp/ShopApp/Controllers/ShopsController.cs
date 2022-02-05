@@ -64,11 +64,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] string shopName)
+        public async Task<IActionResult> Update(int id, [FromBody] string shopName)
         {
             try
             {
-                _shopService.UpdateAsync(id, shopName);
+                await _shopService.UpdateAsync(id, shopName);
                 return Ok("Shop updated.");
             }
             catch (ObjectNotFoundException ex)

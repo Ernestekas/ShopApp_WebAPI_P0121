@@ -66,11 +66,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, ProductDto product)
+        public async Task<IActionResult> Update(int id, ProductDto product)
         {
             try
             {
-                _productService.UpdateAsync(id, product);
+                await _productService.UpdateAsync(id, product);
                 return Ok("Product updated.");
             }
             catch (ObjectDataException ex)
@@ -84,11 +84,11 @@ namespace ShopApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                _productService.DeleteAsync(id);
+                await _productService.DeleteAsync(id);
                 return NoContent();
             }
             catch (ObjectNotFoundException ex)

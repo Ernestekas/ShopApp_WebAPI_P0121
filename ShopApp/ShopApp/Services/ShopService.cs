@@ -64,7 +64,7 @@ namespace ShopApp.Services
             return await _shopRepository.CreateAsync(newShop);
         }
 
-        public async void UpdateAsync(int id, string newName)
+        public async Task UpdateAsync(int id, string newName)
         {
             Shop shop = await _shopRepository.GetByIdAsync(id);
             List<Shop> shops = await _shopRepository.GetAllAsync();
@@ -77,7 +77,7 @@ namespace ShopApp.Services
 
             _shopValidator.TryValidateShop(shop, shopsNames, oldName);
 
-            _shopRepository.UpdateAsync(shop);
+            await _shopRepository.UpdateAsync(shop);
         }
 
         public async Task DeleteAsync(int id)

@@ -61,7 +61,7 @@ namespace ShopApp.Services
             return await _productRepository.CreateAsync(newProduct);
         }
 
-        public async void UpdateAsync(int id, ProductDto product)
+        public async Task UpdateAsync(int id, ProductDto product)
         {
             Product updated = new Product();
 
@@ -72,7 +72,7 @@ namespace ShopApp.Services
             _productValidator.TryValidateProduct(updated, true);
             _shopValidator.TryValidateGet(updated.Shop);
 
-            _productRepository.UpdateAsync(updated);
+            await _productRepository.UpdateAsync(updated);
         }
 
         public async Task DeleteAsync(int id)

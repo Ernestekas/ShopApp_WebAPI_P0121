@@ -35,7 +35,7 @@ namespace ShopApp.Repositories
             return entity.Id;
         }
 
-        public async void UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _context.Update(entity);
             await _context.SaveChangesAsync();
