@@ -53,7 +53,7 @@ namespace ShopApp.Controllers
             try
             {
                 int id = await _productService.CreateAsync(product);
-                return Created($"~/Products/{id}", _productService.GetByIdAsync(id));
+                return Created($"~/Products/{id}", await _productService.GetByIdAsync(id));
             }
             catch (ObjectDataException ex)
             {
