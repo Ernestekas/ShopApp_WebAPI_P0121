@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace ShopApp.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly ProductService _productService;
